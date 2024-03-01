@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des joueurs{% endblock %}
+
+{% block body %}
+
+                    <h2>{{ joueur.name|raw }}</h2>
+                    <h3>{{ joueur.prenom|raw }}</h3>
+                    <p>Nationalité : {{ joueur.nationality|raw }}</p>
+                    <p>Classement : {{ joueur.classement|raw }}</p>
+                    <p>Main : {{ joueur.main|raw }}</p>
+                    <img src="{{ joueur.imglink|raw }}" alt="{{ joueur.name|raw }}" width="100">
+
+                    <a href="{{ path('app_joueur') }}">Retour à la liste des joueurs</a>
+{% endblock %}

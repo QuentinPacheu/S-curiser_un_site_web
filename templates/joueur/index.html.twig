@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des joueurs{% endblock %}
+
+{% block body %}
+<a href="{{ path('app_register')}}">Register</a>
+<a href="{{ path('app_login')}}">Loging</a>
+<a href="{{ path('app_logout') }}">Logout</a>
+
+    <h1>Joueurs</h1>
+
+    {% if joueurs %}
+        <ul>
+            {% for joueur in joueurs %}
+                    <h2>{{ joueur.name|raw }}</h2>
+                    <h3>{{ joueur.prenom|raw }}</h3>
+                    <p>Nationalité : {{ joueur.nationality|raw }}</p>
+                    <p>Classement : {{ joueur.classement|raw }}</p>
+                    <p>{% if joueur.main %}Gaucher{% else %}Droitier{% endif %}</p>
+                    <img src="{{ joueur.imglink|raw }}" alt="{{ joueur.name|raw }}" width="100">
+                    <div>
+                    <a href="{{ path('app_joueur_show', {'slug': joueur.slug}) }}">Voir</a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <form action="{{ path('app_joueur_delete', {'slug': joueur.slug}) }}" method="post" style="display: inline;">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce joueur ?')">Supprimer</button>
+                        </form>
+                        <a href="{{ path('app_joueur_edit', {'slug': joueur.slug}) }}">Modifier</a>
+                    {% endif %}
+                    </div>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucun joueur</p>
+    {% endif %}
+
+{% if is_granted('ROLE_ADMIN') %}
+    <h2>Ajouter un joueur</h2>
+    {{ form(form) }}
+    {% endif %}
+{% endblock %}
